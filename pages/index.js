@@ -3,11 +3,16 @@ import Image from "next/image";
 
 import { Canvas } from "react-three-fiber";
 import { Suspense } from "react";
-import { Loader } from "@react-three/drei";
+import { Html, useProgress } from "@react-three/drei";
 
 import styles from "../styles/Home.module.css";
 import Lights from "../components/Lights";
 import GLTFModal from "../components/GTLFModal";
+
+function Loader() {
+  const { active, progress, errors, item, loaded, total } = useProgress();
+  return <Html center>{progress} % modelo cargado</Html>;
+}
 
 export default function Home() {
   return (
@@ -39,7 +44,7 @@ export default function Home() {
           concurrent
           pixelRatio={[1, 1.5]}
         >
-          <Suspense fallback={null}>
+          <Suspense fallback={<Loader />}>
             <Lights />
             <GLTFModal
               scenePath="/scene.gltf"
@@ -49,14 +54,13 @@ export default function Home() {
             />
           </Suspense>
         </Canvas>
-        <Loader />
       </div>
       <div className="text-2xl my-12">
         <p>👀 ¿Proxima fecha u evento? 👀</p>
         <p>😁 Muy pronto 😁</p>
       </div>
       <div>
-        <p>Seguinos en nuestras Redes Sociales:</p>
+        <p>Seguinos en nuestras redes sociales y enterate de todo:</p>
         <ul className="mt-2 mb-3 text-blue-800 mx-auto grid grid-cols-1 justify-items-center">
           <li className="mb-1">
             <a
